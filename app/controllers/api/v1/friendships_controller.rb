@@ -4,7 +4,6 @@ class Api::V1::FriendshipsController < ApplicationController
   end
 
   def create
-    
   end
 
   def accept
