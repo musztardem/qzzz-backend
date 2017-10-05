@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'API/V1/Friendships', type: :request do
   let!(:user) { create :user }
   let!(:friends) { create_list(:user, 4) }
-  let!(:friendships) { friends.map { |friend| create(:friendship, user: user, friend: friend) } }
+  let!(:friendships) { friends.map { |friend| create(:friendship, :accepted, user: user, friend: friend) } }
   let!(:new_friend) { create :user }
   let(:headers) { valid_headers }
 
@@ -25,7 +25,7 @@ RSpec.describe 'API/V1/Friendships', type: :request do
       let(:valid_attributes) { attributes_for(:friendship, user: user, friend: new_friend) }
       before { post '/api/v1/friendships', params: valid_attributes, headers: headers }
 
-      it 'creates new friendship' do
+      it 'returns status code 201' do
         expect(response).to have_http_status(201)
       end
 
@@ -62,6 +62,14 @@ RSpec.describe 'API/V1/Friendships', type: :request do
 
     it 'accepts friendship' do
       expect(json['friendship']['status']).to eq('accepted')
+    end
+  end
+
+  describe 'DELETE /friendships/{:friendship_id}' do
+    before { delete "/api/v1/friendships/#{friendships.last.id}" }
+
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
     end
   end
 end
