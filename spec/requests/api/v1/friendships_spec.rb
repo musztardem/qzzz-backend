@@ -73,24 +73,24 @@ RSpec.describe 'API/V1/Friendships', type: :request do
 
     before { post "/api/v1/friendships/#{new_friendship.id}/accept", headers: headers }
 
-    xit 'returns status code 200' do
+    it 'returns status code 200' do
       expect(response).to have_http_status(200)
     end
 
-    xit 'accepts friendship' do
+    it 'accepts friendship' do
       expect(json['message']).to match(/Invitation has been accepted/)
     end
   end
 
   describe 'DELETE /friendships/{:friendship_id}' do
-    before { delete "/api/v1/friendships/#{friendships.last.id}" }
+    before { delete "/api/v1/friendships/#{friendships.last.id}", headers: headers }
 
-    xit 'returns status code 200' do
-      expect(response).to have_http_status(200)
+    it 'returns status code 204' do
+      expect(response).to have_http_status(204)
     end
 
-    xit 'returns success message' do
-      expect(json['message']).to match(/has been deleted/)
+    it 'returns success message' do
+      expect(response.body).to eq ""
     end
   end
 end
