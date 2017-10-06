@@ -22,7 +22,7 @@ RSpec.describe 'API/V1/Friendships', type: :request do
 
   describe 'POST /friendships' do
     context 'when friendship does not exist' do
-      let(:valid_attributes) { attributes_for(:friendship, user: user, friend: new_friend) }
+      let(:valid_attributes) { { friend_id: new_friend.id }.to_json }
       before { post '/api/v1/friendships', params: valid_attributes, headers: headers }
 
       it 'returns status code 201' do
@@ -34,18 +34,35 @@ RSpec.describe 'API/V1/Friendships', type: :request do
       end
     end
 
-    context 'when friendship already exists' do
-      let!(:friendship) { create(:friendship, :pending, user: new_friend, friend: user) }
-      let(:valid_attributes) { attributes_for(:friendship, user: user, friend: new_friend) }
+    context 'when friendship exists' do
+      context 'when has pending status' do
+        let!(:friendship) { create(:friendship, :pending, user: new_friend, friend: user) }
+        let(:valid_attributes) { { friend_id: friendship.friend_id }.to_json }
 
-      before { post '/api/v1/friendships', params: valid_attributes, headers: headers }
+        before { post '/api/v1/friendships', params: valid_attributes, headers: headers }
 
-      it 'return status code 200' do
-        expect(response).to have_http_status(200)
+        it 'return status code 200' do
+          expect(response).to have_http_status(201)
+        end
+
+        it 'returns success message' do
+          expect(json['message']).to match(/Invitation has been sent/)
+        end
       end
 
-      it 'accepts friendship' do
-        expect(json['friendship']['status']).to eq('accepted')
+      context 'when has accepted status' do
+        let!(:friendship) { create(:friendship, :accepted, user: user, friend: new_friend) }
+        let(:valid_attributes) { { friend_id: new_friend.id }.to_json }
+
+        before { post '/api/v1/friendships', params: valid_attributes, headers: headers }
+
+        it 'returns status code' do
+          expect(response).to have_http_status(422)
+        end
+
+        it 'returns error message' do
+          expect(json['messages']).to include("Friend is already your friend.")
+        end
       end
     end
   end
@@ -56,20 +73,24 @@ RSpec.describe 'API/V1/Friendships', type: :request do
 
     before { post "/api/v1/friendships/#{new_friendship.id}/accept", headers: headers }
 
-    it 'returns status code 200' do
+    xit 'returns status code 200' do
       expect(response).to have_http_status(200)
     end
 
-    it 'accepts friendship' do
-      expect(json['friendship']['status']).to eq('accepted')
+    xit 'accepts friendship' do
+      expect(json['message']).to match(/Invitation has been accepted/)
     end
   end
 
   describe 'DELETE /friendships/{:friendship_id}' do
     before { delete "/api/v1/friendships/#{friendships.last.id}" }
 
-    it 'returns status code 200' do
+    xit 'returns status code 200' do
       expect(response).to have_http_status(200)
+    end
+
+    xit 'returns success message' do
+      expect(json['message']).to match(/has been deleted/)
     end
   end
 end
