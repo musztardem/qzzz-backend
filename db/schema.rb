@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007234035) do
+ActiveRecord::Schema.define(version: 20171007235402) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,8 @@ ActiveRecord::Schema.define(version: 20171007234035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.boolean "visible"
+    t.boolean "private"
+    t.integer "status"
     t.index ["user_id"], name: "index_quizzes_on_user_id"
   end
 

@@ -87,6 +87,10 @@ RSpec.describe 'API/V1/Quizzes' do
 
   describe 'GET /quizzes/user_quizzes/{:user_id}' do
     let!(:other_user) { create :user }
-    let!(:visible_quiz) { create :quiz, }
+    let!(:visible_quiz) { create :quiz, :visible, user: other_user }
+    let(:invisible_quiz) { create :quiz, :invisible, user: other_user }
+
+    it 'returns public quizzes' do
+    end
   end
 end
