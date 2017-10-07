@@ -84,4 +84,9 @@ RSpec.describe 'API/V1/Quizzes' do
       expect(respons.body).to be ''
     end
   end
+
+  describe 'GET /quizzes/user_quizzes/{:user_id}' do
+    let!(:other_user) { create :user }
+    let!(:visible_quiz) { create :quiz, }
+  end
 end
