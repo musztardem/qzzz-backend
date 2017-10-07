@@ -60,4 +60,28 @@ RSpec.describe 'API/V1/Quizzes' do
       end
     end
   end
+
+  describe 'PATCH /quizzes' do
+    let!(:quiz) { create :quiz, user: user }
+
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns success message' do
+      expect(json['message']).to match(/Quiz was successfully updated./)
+    end
+  end
+
+  describe 'DELETE /quizzes/{:id}' do
+    let!(:quiz) { create :quiz, user: user }
+
+    it 'returns status code 204' do
+      expect(respose).to have_http_status(204)
+    end
+
+    it 'returns empty response' do
+      expect(respons.body).to be ''
+    end
+  end
 end
