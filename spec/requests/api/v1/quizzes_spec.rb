@@ -56,13 +56,16 @@ RSpec.describe 'API/V1/Quizzes' do
       end
 
       it 'returns error messages' do
-        expect(json['messages']).size to eq(2)
+        expect(json['messages'].size).to eq(2)
       end
     end
   end
 
-  xdescribe 'PATCH /quizzes' do
+  describe 'PATCH /quizzes/{:quiz_id}' do
     let!(:quiz) { create :quiz, user: user }
+    let!(:updated_params) { { title: 'Updated title!', description: 'Updated description!' }.to_json }
+
+    before { patch "/api/v1/quizzes/#{quiz.id}", params: updated_params, headers: headers }
 
     it 'returns status code 200' do
       expect(response).to have_http_status(200)
