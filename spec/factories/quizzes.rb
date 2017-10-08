@@ -3,6 +3,7 @@ FactoryGirl.define do
     title { Faker::Name.name }
     description { Faker::Name.title }
     user
+    status :invisible
   end
 
   trait :invisible do
