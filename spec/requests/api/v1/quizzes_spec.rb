@@ -76,15 +76,17 @@ RSpec.describe 'API/V1/Quizzes' do
     end
   end
 
-  xdescribe 'DELETE /quizzes/{:id}' do
+  describe 'DELETE /quizzes/{:id}' do
     let!(:quiz) { create :quiz, user: user }
 
+    before { delete "/api/v1/quizzes/#{quiz.id}", headers: headers }
+
     it 'returns status code 204' do
-      expect(respose).to have_http_status(204)
+      expect(response).to have_http_status(204)
     end
 
     it 'returns empty response' do
-      expect(respons.body).to be ''
+      expect(response.body).to eq ''
     end
   end
 
