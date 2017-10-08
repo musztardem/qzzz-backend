@@ -37,7 +37,7 @@ RSpec.describe 'API/V1/Quizzes' do
     let!(:invalid_quiz) { {}.to_json }
 
     context 'valid params' do
-      before { post '/api/v1/quizzes', params :valid_quiz, headers: headers }
+      before { post '/api/v1/quizzes', params: valid_quiz, headers: headers }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -56,7 +56,7 @@ RSpec.describe 'API/V1/Quizzes' do
       end
 
       it 'returns error messages' do
-        expect(json['messages'].size to eq(2)
+        expect(json['messages']).size to eq(2)
       end
     end
   end
@@ -87,10 +87,60 @@ RSpec.describe 'API/V1/Quizzes' do
 
   describe 'GET /quizzes/user_quizzes/{:user_id}' do
     let!(:other_user) { create :user }
-    let!(:visible_quiz) { create :quiz, :visible, user: other_user }
-    let(:invisible_quiz) { create :quiz, :invisible, user: other_user }
 
-    it 'returns public quizzes' do
+    context "when quiz is invisible" do
+      let!(:invisible_quiz) { create :quiz, :invisible, user: other_user }
+      before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'does not return invisible quiz' do
+        expect(json['quizzes']).to be_empty
+      end
+    end
+
+    context "when quiz is visible for friends" do
+      let!(:quiz_for_friends) { create :quiz, :visible_for_friends, user: other_user }
+
+      context "when users are friends" do
+        let(:friendship) { create :friendship, user: user, friend: other_user }
+        before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status(200)
+        end
+
+        it 'returns quiz' do
+          expect(json['quizzes'].size).to eq 1
+        end
+      end
+
+      context "when users are not friends" do
+        before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+
+        it 'returns status code 200' do
+          expect(response).to have_http_status(200)
+        end
+
+        it 'does not returns quiz' do
+          expect(json['quizzes'].size).to eq 0
+        end
+      end
+    end
+
+    context "when quiz is visible for all" do
+      let!(:quiz_for_all) { create :quiz, :visible_for_all, user: other_user }
+      before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+
+      it 'returns status code 200' do
+        expect(response).to have_http_status(200)
+      end
+
+      it 'does not returns quiz' do
+        expect(json['quizzes'].size).to eq 1
+      end
     end
   end
 end
