@@ -90,7 +90,7 @@ RSpec.describe 'API/V1/Quizzes' do
 
     context "when quiz is invisible" do
       let!(:invisible_quiz) { create :quiz, :invisible, user: other_user }
-      before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+      before { get "/api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
@@ -106,7 +106,7 @@ RSpec.describe 'API/V1/Quizzes' do
 
       context "when users are friends" do
         let(:friendship) { create :friendship, user: user, friend: other_user }
-        before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+        before { get "/api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
 
         it 'returns status code 200' do
           expect(response).to have_http_status(200)
@@ -118,7 +118,7 @@ RSpec.describe 'API/V1/Quizzes' do
       end
 
       context "when users are not friends" do
-        before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+        before { get "/api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
 
         it 'returns status code 200' do
           expect(response).to have_http_status(200)
@@ -132,7 +132,7 @@ RSpec.describe 'API/V1/Quizzes' do
 
     context "when quiz is visible for all" do
       let!(:quiz_for_all) { create :quiz, :visible_for_all, user: other_user }
-      before { get "api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
+      before { get "/api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
 
       it 'returns status code 200' do
         expect(response).to have_http_status(200)
