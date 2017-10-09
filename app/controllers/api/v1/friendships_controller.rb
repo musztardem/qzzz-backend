@@ -16,7 +16,7 @@ class Api::V1::FriendshipsController < ApplicationController
 
   def accept
     Friendship.find(params[:friendship_id]).accepted!
-    json_response({ message: 'Invitation has been accepted' }, :ok)
+    json_response({ message: 'Invitation has been accepted' })
   end
 
   def destroy

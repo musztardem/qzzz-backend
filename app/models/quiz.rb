@@ -6,4 +6,6 @@ class Quiz < ApplicationRecord
     :visible_for_friends,
     :visible_for_all
   ]
+
+  scope :for_friend, -> { where(status: [:visible_for_friends, :visible_for_all]) }
 end

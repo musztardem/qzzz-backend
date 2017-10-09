@@ -9,4 +9,8 @@ class User < ApplicationRecord
   def all_friendships
     friendships + inverse_friendships
   end
+
+  def is_friend_of?(friend)
+    Friendship.between(self, friend).any?
+  end
 end

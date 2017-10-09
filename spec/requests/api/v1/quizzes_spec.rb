@@ -90,7 +90,7 @@ RSpec.describe 'API/V1/Quizzes' do
     end
   end
 
-  xdescribe 'GET /quizzes/user_quizzes/{:user_id}' do
+  describe 'GET /quizzes/user_quizzes/{:user_id}' do
     let!(:other_user) { create :user }
 
     context "when quiz is invisible" do
@@ -110,7 +110,7 @@ RSpec.describe 'API/V1/Quizzes' do
       let!(:quiz_for_friends) { create :quiz, :visible_for_friends, user: other_user }
 
       context "when users are friends" do
-        let(:friendship) { create :friendship, user: user, friend: other_user }
+        let!(:friendship) { create :friendship, user: user, friend: other_user }
         before { get "/api/v1/quizzes/user_quizzes/#{other_user.id}", headers: headers }
 
         it 'returns status code 200' do
