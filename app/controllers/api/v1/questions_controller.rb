@@ -5,6 +5,9 @@ class Api::V1::QuestionsController < ApplicationController
   def create
   end
 
+  def edit
+  end
+
   def update
   end
 
