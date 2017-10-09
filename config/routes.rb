@@ -5,8 +5,9 @@ Rails.application.routes.draw do
       resources :friendships, only: [:index, :create, :destroy] do
         post :accept
       end
-      resources :quizzes, only: [:index, :create, :update, :destroy] do
+      resources :quizzes, except: [:new, :edit] do
         get 'user_quizzes/:user_id' => 'quizzes#user_quizzes', on: :collection
+        resources :questions, except: [:new, :edit]
       end
     end
   end

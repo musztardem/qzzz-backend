@@ -12,7 +12,9 @@ class Api::V1::QuizzesController < ApplicationController
     end
   end
 
-  def edit
+  def show
+    @quiz = Quiz.find(params[:id])
+    json_response({ quiz: quiz })
   end
 
   def update
