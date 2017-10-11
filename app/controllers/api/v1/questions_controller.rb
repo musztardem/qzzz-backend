@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < ApplicationController
   def index
     questions = Quiz.find(params[:quiz_id]).questions
-    json_response({ questions: questions })
+    json_response(questions)
   end
 
   def create

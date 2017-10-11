@@ -23,7 +23,7 @@ RSpec.describe 'API/V1/Quizzes' do
       before { get '/api/v1/quizzes', headers: headers }
 
       it 'returns current users quizzes' do
-        expect(json['quizzes'].size).to eq 5
+        expect(json.size).to eq 5
       end
 
       it 'returns status code 200' do
@@ -102,7 +102,7 @@ RSpec.describe 'API/V1/Quizzes' do
       end
 
       it 'does not return invisible quiz' do
-        expect(json['quizzes']).to be_empty
+        expect(json).to be_empty
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe 'API/V1/Quizzes' do
         end
 
         it 'returns quiz' do
-          expect(json['quizzes'].size).to eq 1
+          expect(json.size).to eq 1
         end
       end
 
@@ -130,7 +130,7 @@ RSpec.describe 'API/V1/Quizzes' do
         end
 
         it 'does not returns quiz' do
-          expect(json['quizzes'].size).to eq 0
+          expect(json.size).to eq 0
         end
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe 'API/V1/Quizzes' do
       end
 
       it 'does not returns quiz' do
-        expect(json['quizzes'].size).to eq 1
+        expect(json.size).to eq 1
       end
     end
   end

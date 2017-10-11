@@ -1,7 +1,7 @@
 class Api::V1::FriendshipsController < ApplicationController
   def index
     friendships = current_user.all_friendships
-    json_response({ friends: friendships })
+    json_response(friendships)
   end
 
   def create

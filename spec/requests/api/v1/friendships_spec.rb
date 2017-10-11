@@ -16,7 +16,7 @@ RSpec.describe 'API/V1/Friendships', type: :request do
     end
 
     it 'returns friends list' do
-      expect(json['friends'].count).to eq(4)
+      expect(json.count).to eq(4)
     end
   end
 

@@ -16,7 +16,7 @@ RSpec.describe 'API/V1/Questions', type: :request do
     end
 
     it 'returns quiz questions' do
-      expect(json['questions'].size).to eq 2
+      expect(json.size).to eq 2
     end
   end
 

@@ -1,7 +1,7 @@
 class Api::V1::QuizzesController < ApplicationController
 
   def index
-    json_response({ quizzes: current_user.quizzes })
+    json_response(current_user.quizzes)
   end
 
   def create
@@ -14,7 +14,7 @@ class Api::V1::QuizzesController < ApplicationController
 
   def show
     @quiz = Quiz.find(params[:id])
-    json_response({ quiz: quiz })
+    json_response(quiz)
   end
 
   def update
@@ -32,7 +32,7 @@ class Api::V1::QuizzesController < ApplicationController
     else
       Quiz.visible_for_all
     end
-    json_response( { quizzes: quizzes } )
+    json_response(quizzes)
   end
 
   def destroy
