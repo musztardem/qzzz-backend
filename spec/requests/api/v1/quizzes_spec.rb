@@ -61,6 +61,18 @@ RSpec.describe 'API/V1/Quizzes' do
     end
   end
 
+  describe 'GET /quizzes/{:id}' do
+    before { get "/api/v1/quizzes/#{quizzes_list.last.id}", headers: headers }
+
+    it 'returns status code 200' do
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns quiz' do
+      expect(json).to match_response_schema(:quiz)
+    end
+  end
+
   describe 'PATCH /quizzes/{:quiz_id}' do
     let!(:quiz) { create :quiz, user: user }
     let!(:updated_params) { { title: 'Updated title!', description: 'Updated description!' }.to_json }

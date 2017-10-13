@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "user_id",
+    "status"
+  ],
+  "properties": {
+    "id": { "type": "integer" },
+    "title": { "type": "string" },
+    "description": { "type": "string" },
+    "user_id": { "type": "integer" },
+    "status": { "type": "string" }
+  }
+}
