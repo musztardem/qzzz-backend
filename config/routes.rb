@@ -7,9 +7,7 @@ Rails.application.routes.draw do
       end
       resources :quizzes, except: [:new, :edit] do
         get 'user_quizzes/:user_id' => 'quizzes#user_quizzes', on: :collection
-        resources :questions, except: [:new, :edit] do
-          resources :answers, only: [:index, :create, :update]
-        end
+        resources :questions, except: [:new, :edit]
       end
     end
   end

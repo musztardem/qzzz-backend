@@ -6,7 +6,7 @@ class Api::V1::QuestionsController < ApplicationController
 
   def create
     @form = QuestionForm.from_params(params, user_id: current_user.id)
-    CreateOrUpdateQuestion.call(@form) do
+    CreateQuestion.call(@form) do
       on(:ok) { json_response({ message: 'Question was successfully created' }, :created) }
       on(:invalid) do
         json_response(
@@ -24,7 +24,7 @@ class Api::V1::QuestionsController < ApplicationController
 
   def update
     @form = QuestionForm.from_params(params, user_id: current_user.id)
-    CreateOrUpdateQuestion.call(@form) do
+    UpdateQuestion.call(@form) do
       on(:ok) { json_response({ message: 'Question was successfully updated'})}
       on(:invalid) do
         json_response(
