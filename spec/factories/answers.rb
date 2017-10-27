@@ -1,6 +1,7 @@
 FactoryGirl.define do
   factory :answer do
-    content { Faker::ChuckNorris.fact }
+    content "Byc albo nie byc ty jestes jak zdrowie"
+    correct true
     question
   end
 end
