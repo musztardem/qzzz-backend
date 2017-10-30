@@ -17,7 +17,7 @@ RSpec.describe AnswerForm do
 
       it 'is invalid' do
         expect(subject.valid?).to be false
-        expect(subject.errors.count).to eq 3
+        expect(subject.errors.count).to eq 2
       end
     end
   end

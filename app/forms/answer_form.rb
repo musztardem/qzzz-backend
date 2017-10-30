@@ -3,6 +3,8 @@ class AnswerForm < Rectify::Form
   attribute :correct, Boolean
   attribute :content, String
 
-  validates :content, :question_id, :correct, presence: true
-  validates :content, length: { maximum: 50 }
+  validates :content,
+    presence: true,
+    length: { maximum: 50 }
+  validates :correct, inclusion: { in: [true, false] }
 end
