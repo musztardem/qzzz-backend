@@ -27,16 +27,22 @@ class Api::V1::QuizzesController < ApplicationController
 
   def user_quizzes
     user = User.find(params[:user_id])
-    quizzes = if current_user.is_friend_of? user
-      Quiz.for_friend
-    else
-      Quiz.visible_for_all
-    end
+    quizzes = quizzes_of user
     json_response(quizzes)
   end
 
   def destroy
     current_user.quizzes.find(params[:id]).destroy!
     head :no_content
+  end
+
+  private
+
+  def quizzes_of(user)
+    if current_user.is_friend_of? user
+      user.quizzes.for_friend
+    else
+      user.quizzes.visible_for_all
+    end
   end
 end
